@@ -1,0 +1,16 @@
+Option Explicit
+
+Public Resultat As String
+
+Private Sub CommandButtonRechercher_Click()
+    ' Mettre à jour la variable Resultat avec la valeur du TextBox
+    Resultat = TextBoxNumeroEtudiant.Value
+    
+    ' Exécuter la recherche avec le numéro d'étudiant
+    RechercherEtAfficherNom Resultat
+End Sub
+
+Private Sub CommandButtonAnnuler_Click()
+    ' Cacher le UserForm
+    Unload Me
+End Sub
