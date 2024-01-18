@@ -1,0 +1,12 @@
+Option Explicit
+
+Private Sub CommandButtonAjouter_Click()
+    ' Appeler la procédure AjouterPrenomNom avec les valeurs des TextBox
+    AjouterPrenomNom TextBoxPrenom.Value, TextBoxNom.Value
+    
+End Sub
+
+Private Sub CommandButtonAnnuler_Click()
+    ' Cacher le UserForm sans ajouter les données
+    Unload Me
+End Sub
