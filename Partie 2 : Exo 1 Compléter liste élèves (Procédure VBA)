@@ -1,0 +1,38 @@
+Sub AfficherUserFormAjout()
+    ' Affiche le UserFormAjout
+    UserFormAjout.Show
+End Sub
+
+Sub AjouterPrenomNom(prenom As String, nom As String)
+    Dim ws As Worksheet
+    Dim colonnePrenom As Range
+    Dim colonneNom As Range
+    Dim derniereLigne As Long
+    
+    ' Définir la feuille de travail (à ajuster selon votre cas)
+    Set ws = ThisWorkbook.Sheets("Elèves")
+    
+    ' Trouver la dernière ligne utilisée dans la colonne E
+    derniereLigne = ws.Cells(ws.Rows.Count, "E").End(xlUp).Row
+    
+    ' Définir les colonnes pour les prénoms et les noms
+    Set colonnePrenom = ws.Columns("F")
+    Set colonneNom = ws.Columns("E")
+    
+    ' Rechercher la première cellule vide dans les colonnes prénom et nom
+    Set colonnePrenom = colonnePrenom.Find("*", LookIn:=xlValues, SearchOrder:=xlByRows, SearchDirection:=xlPrevious)
+    Set colonneNom = colonneNom.Find("*", LookIn:=xlValues, SearchOrder:=xlByRows, SearchDirection:=xlPrevious)
+    
+    ' Vérifier si une des colonnes est vide
+    If colonnePrenom Is Nothing Or colonneNom Is Nothing Then
+        MsgBox "Erreur: Impossible de trouver une cellule vide.", vbExclamation
+        Exit Sub
+    End If
+    
+    ' Ajouter les données à la suite sans réécrire dans une cellule existante
+    colonnePrenom.Offset(1, 0).Value = prenom
+    colonneNom.Offset(1, 0).Value = nom
+    
+    ' Afficher un message pour indiquer que l'ajout a été effectué
+    MsgBox "Prénom et nom ajoutés avec succès.", vbInformation
+End Sub
