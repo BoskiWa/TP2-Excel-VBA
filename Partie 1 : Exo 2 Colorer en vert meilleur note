@@ -1,0 +1,48 @@
+Sub MettreEnSurbrillanceMeilleureNote()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim numCol As Range, noteCol As Range
+    Dim num As Variant
+    Dim maxNote As Double
+    Dim cell As Range
+
+    ' Référence à la feuille de calcul
+    Set ws = ThisWorkbook.Sheets("Notes")
+
+    ' Trouver la dernière ligne avec des données
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+
+    ' Référence aux colonnes avec les numéros et les notes
+    Set numCol = ws.Range("B2:B" & lastRow)
+    Set noteCol = ws.Range("F2:F" & lastRow)
+
+    ' Réinitialiser la couleur de la colonne des notes à blanc uniquement pour les cellules qui ne sont pas rouges
+    For Each cell In noteCol
+        If cell.Interior.Color <> RGB(255, 0, 0) Then ' Vérifier si la cellule n'est pas rouge
+            cell.Interior.ColorIndex = xlNone
+        End If
+    Next cell
+
+    ' Parcourir chaque numéro
+    For Each num In numCol
+        maxNote = 0 ' Réinitialiser la meilleure note pour chaque numéro
+
+        ' Parcourir les notes associées à ce numéro
+        For Each cell In noteCol
+            If cell.Offset(0, -4).Value = num.Value Then
+                If IsEmpty(cell.Value) Then
+                    Exit For ' Si la cellule est vide, arrêter la recherche pour ce numéro
+                ElseIf cell.Value > maxNote Then
+                    maxNote = cell.Value ' Mettre à jour la meilleure note
+                End If
+            End If
+        Next cell
+
+        ' Mettre en surbrillance la meilleure note en vert
+        For Each cell In noteCol
+            If cell.Offset(0, -4).Value = num.Value And cell.Value = maxNote And Not IsEmpty(cell.Value) Then
+                cell.Interior.Color = RGB(0, 255, 0) ' Vert
+            End If
+        Next cell
+    Next num
+End Sub
