@@ -1,0 +1,28 @@
+Function MoyenneGeneraleLigne(notes As Range, coefficients As Range) As Double
+    ' Vérifier si les plages ont la même taille
+    If notes.Columns.Count <> coefficients.Columns.Count Or notes.Rows.Count > 1 Or coefficients.Rows.Count > 1 Then
+        MsgBox "Les plages de notes et de coefficients doivent être de la même taille et unidimensionnelles.", vbExclamation, "Erreur"
+        Exit Function
+    End If
+    
+    ' Initialiser la somme des produits note * coefficient
+    Dim sommeProduits As Double
+    sommeProduits = 0
+    
+    ' Calculer la somme des produits note * coefficient
+    Dim i As Integer
+    For i = 1 To notes.Columns.Count
+        sommeProduits = sommeProduits + (notes.Cells(1, i).Value * coefficients.Cells(1, i).Value)
+    Next i
+    
+    ' Calculer la somme des coefficients
+    Dim sommeCoefficients As Double
+    sommeCoefficients = Application.WorksheetFunction.Sum(coefficients)
+    
+    ' Calculer la moyenne générale
+    If sommeCoefficients <> 0 Then
+        MoyenneGeneraleLigne = sommeProduits / sommeCoefficients
+    Else
+        MsgBox "La somme des coefficients ne peut pas être zéro.", vbExclamation, "Erreur"
+    End If
+End Function
