@@ -1,0 +1,30 @@
+Sub AfficherUserFormRechercheNom()
+    ' Affiche le UserFormRecherchePrenom
+    UserFormRechercheNom.Show
+End Sub
+
+Sub RechercherEtAfficherNom(numeroEtudiant As String)
+    Dim ws As Worksheet
+    Dim rangeNumeroEtudiant As Range
+    Dim nom As Variant
+    
+    ' Définir la feuille de travail (à ajuster selon votre cas)
+    Set ws = ThisWorkbook.Sheets("Elèves")
+    
+    ' Rechercher le numéro d'étudiant dans la colonne D
+    Set rangeNumeroEtudiant = ws.Columns("D").Find(numeroEtudiant, LookIn:=xlValues, lookat:=xlWhole)
+    
+    ' Vérifier si le numéro d'étudiant a été trouvé
+    If Not rangeNumeroEtudiant Is Nothing Then
+        ' Récupérer le nom correspondant
+        nom = rangeNumeroEtudiant.Offset(0, 1).Value
+        
+        ' Afficher le nom dans le LabelResultat du UserForm
+        UserFormRechercheNom.LabelResultat.Caption = "Le nom de l'élève avec le numéro d'étudiant " & numeroEtudiant & " est " & nom
+    Else
+        ' Si le numéro d'étudiant n'est pas trouvé
+        UserFormRechercheNom.LabelResultat.Caption = "Aucun élève trouvé avec le numéro d'étudiant " & numeroEtudiant
+    End If
+    
+
+End Sub
